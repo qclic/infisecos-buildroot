@@ -22,9 +22,9 @@ BR2_TARGET_ROOTFS_EXT2_4=y
 BR2_TARGET_ROOTFS_TAR_XZ=y
 BR2_TARGET_ROOTFS_CPIO=y
 BR2_TARGET_ROOTFS_CPIO_GZIP=y
-BR2_TARGET_ROOTFS_EXT2_SIZE="2G"
+BR2_TARGET_ROOTFS_EXT2_SIZE="5G"
 BR2_ROOTFS_POST_IMAGE_SCRIPT="board/phytium/post-image.sh support/scripts/genimage.sh"
-BR2_ROOTFS_POST_SCRIPT_ARGS="-c board/phytium/genimage-5.10.cfg"
+BR2_ROOTFS_POST_SCRIPT_ARGS="-c board/phytium/genimage-sd.cfg"
 
 
 # Bootloader
@@ -51,6 +51,8 @@ BR2_LINUX_KERNEL_DTS_SUPPORT=y
 BR2_LINUX_KERNEL_INTREE_DTS_NAME="phytium/e2000d-chillipi-edu-board phytium/e2000d-demo-board phytium/e2000d-miniitx-board phytium/e2000d-power-board phytium/e2000q-come-board phytium/e2000q-demo-board phytium/e2000q-edu-board phytium/e2000q-hanwei-board phytium/e2000q-miniitx-board phytium/e2000q-vpx-board phytium/e2000s-demo-board phytium/phytiumpi_firefly"
 BR2_LINUX_KERNEL_NEEDS_HOST_OPENSSL=y
 BR2_LINUX_KERNEL_NEEDS_HOST_PAHOLE=y
+BR2_LINUX_KERNEL_PATCH="$(LINUX_PKGDIR)/kernel-patches/jailhouse/0001-modify-the-dts-of-e2000-linux-kernel-to-reserve-memo.patch"
+BR2_LINUX_KERNEL_IMAGEGZ=y
 
 # Target packages
 BR2_PACKAGE_BUSYBOX_SHOW_OTHERS=y
@@ -87,11 +89,18 @@ BR2_PACKAGE_WIRELESS_REGDB=y
 BR2_PACKAGE_PROCPS_NG=y
 BR2_PACKAGE_NANO=y
 BR2_PACKAGE_VIM=y
+BR2_PACKAGE_JAILHOUSE=y
+BR2_PACKAGE_PHYUBOOT=y
+BR2_PACKAGE_PHYUBOOT_RAMSIZE="4GB"
+BR2_PACKAGE_PHYTIUM_TOOLS=y
+
 # util-linux
 BR2_PACKAGE_UTIL_LINUX=y
 BR2_PACKAGE_UTIL_LINUX_BINARIES=y
 
 # core python3 modules
+BR2_PACKAGE_PYTHON3=y
+BR2_PACKAGE_JAILHOUSE_HELPER_SCRIPTS=y
 BR2_PACKAGE_PYTHON3_2TO3=y
 BR2_PACKAGE_PYTHON3_BERKELEYDB=y
 BR2_PACKAGE_PYTHON3_BZIP2=y
