@@ -1,0 +1,11 @@
+# additional packages list for SDK main userland gathered from main repo
+additional_full_packages_list=" "
+
+additional_desktop_packages_list="network-manager-gnome xfce4-screenshooter"
+
+# for Lite userland gathered from main repo
+additional_base_packages_list="net-tools iputils-ping gcc g++ vim make autoconf automake libtool pkg-config bison bc flex libssl-dev openssh-server python-is-python3 \
+libgstreamer1.0-0 gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-bad gstreamer1.0-plugins-ugly gstreamer1.0-libav gstreamer1.0-tools \
+gstreamer1.0-x gstreamer1.0-alsa gstreamer1.0-gl gstreamer1.0-gtk3 gstreamer1.0-pulseaudio \
+dkms initramfs-tools debhelper libgles-dev libexpat1-dev libglvnd-dev ffmpeg \
+network-manager wpasupplicant wireless-tools parted locales trace-cmd bpftrace curl"

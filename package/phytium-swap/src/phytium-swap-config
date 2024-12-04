@@ -1,0 +1,49 @@
+#!/bin/bash
+
+# Phytium swap configuration and activation script
+#
+# Copyright (c) 2024 Phytium Technology Co., Ltd.
+
+# Functions:
+#
+# configure_swap
+# activate_swap
+
+ENABLED=false
+[ -f /etc/default/phytium-swap-user-config ] && . /etc/default/phytium-swap-user-config
+# Exit if not Enabled
+[[ "$ENABLED" != "true" ]] && exit 0
+
+configure_swap() {
+	# Expose 100% of real memory as swap space by default
+	swap_percent=${SWAP_PERCENTAGE:=100}
+	mem_info=$(LC_ALL=C free -w 2>/dev/null | grep "^Mem" || LC_ALL=C free | grep "^Mem")
+	mem_info=$(echo $mem_info | awk '{print $2}')
+	memory_total=$(( mem_info * 1024 ))
+	swap_total=$(( memory_total * swap_percent / 100 ))
+	vm_swappiness=${SWAPPINESS:=60}
+} # configure_swap
+
+activate_swap() {
+	# Return is SWAP is disabled (enabled by default)
+	[[ -n "$SWAP" && "$SWAP" != "true" ]] && return;
+
+	fallocate -l $swap_total /mnt/phytium.swap
+	chmod 600 /mnt/phytium.swap
+	mkswap /mnt/phytium.swap
+	swapon /mnt/phytium.swap
+	echo '/mnt/phytium.swap swap swap defaults 0 0' | tee -a /etc/fstab
+	# swappiness
+	echo "vm.swappiness=${vm_swappiness}" >> /etc/sysctl.conf
+
+} # activate_swap
+
+case $1 in
+	*start*)
+		configure_swap
+		activate_swap
+		;;
+esac
+
+# disable phytium-swap-config.service at netx reboot
+systemctl disable phytium-swap-config.service

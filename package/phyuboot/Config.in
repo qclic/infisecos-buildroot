@@ -1,0 +1,12 @@
+config BR2_PACKAGE_PHYUBOOT
+	bool "phyuboot"
+	help
+	  Phytium Pi uboot firmware
+
+if BR2_PACKAGE_PHYUBOOT
+config BR2_PACKAGE_PHYUBOOT_RAMSIZE
+        string "ram size"
+        help
+          This is a comment that defines ram size is, 2G or 4g
+
+endif

@@ -1,0 +1,16 @@
+config BR2_PACKAGE_PHYTIUM_STANDALONE
+	bool "phytium-standalone"
+	help
+	  Phytium-Standalone-SDK for OpenAMP
+
+          https://gitee.com/phytium_embedded/phytium-standalone-sdk
+
+if BR2_PACKAGE_PHYTIUM_STANDALONE
+
+config BR2_PACKAGE_PHYTIUM_STANDALONE_CPU_NAME
+        string "CPU name"
+        help
+          Supported CPU:
+	  "e2000q", "phytiumpi", "d2000", "ft2004".
+
+endif

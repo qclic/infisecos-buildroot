@@ -1,0 +1,18 @@
+# Phytium SWAP configuration service
+# This service may block the boot process for up to 30 sec
+
+[Unit]
+Description=Phytium SWAP config
+DefaultDependencies=no
+After=local-fs.target
+Conflicts=shutdown.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/lib/phytium/phytium-swap-config start
+ExecStop=/usr/lib/phytium/phytium-swap-config stop
+RemainAfterExit=yes
+TimeoutStartSec=30sec
+
+[Install]
+WantedBy=sysinit.target

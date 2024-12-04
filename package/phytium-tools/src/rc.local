@@ -1,0 +1,16 @@
+#!/bin/bash
+
+lock_file="/var/tmp/resize.lock"
+
+if [ -f "$lock_file" ]; then
+	echo "Partition expansion script has already been executed."
+	exit 0
+fi
+
+# if the scripts has not been executed yet, create a lock file
+touch "$lock_file"
+
+# execute the partition expansion script
+nohup /usr/bin/resize.sh &
+
+exit 0

@@ -1,0 +1,4 @@
+# <name>				<type>	<mode>	<uid>	<gid>	<major>	<minor>	<start>	<inc>	<count>
+/var/cache/man                          r       755     man     man     -       -       -       -       -
+/var/lib/lightdm                        r       755     lightdm lightdm -       -       -       -       -
+/home/user                              r       755     user    user    -       -       -       -       -

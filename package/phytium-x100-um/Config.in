@@ -1,0 +1,22 @@
+config BR2_PACKAGE_PHYTIUM_X100_UM
+	bool "phytium-x100-um"
+	select BR2_PACKAGE_HAS_LIBEGL
+	select BR2_PACKAGE_HAS_LIBGLES
+	select BR2_PACKAGE_HAS_LIBGBM
+	help
+	  Phytium X100 um deb package.
+
+	  https://gitee.com/phytium_embedded/phytium-rogue-umlibs/tree/develop/
+
+if BR2_PACKAGE_PHYTIUM_X100_UM
+
+config BR2_PACKAGE_PROVIDES_LIBEGL
+	default "phytium-x100-um"
+
+config BR2_PACKAGE_PROVIDES_LIBGLES
+	default "phytium-x100-um"
+
+config BR2_PACKAGE_PROVIDES_LIBGBM
+	default "phytium-x100-um"
+
+endif

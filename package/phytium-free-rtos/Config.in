@@ -1,0 +1,16 @@
+config BR2_PACKAGE_PHYTIUM_FREE_RTOS
+	bool "phytium-free-rtos"
+	help
+	  Phytium-FreeRTOS-SDK for OpenAMP
+
+          https://gitee.com/phytium_embedded/phytium-free-rtos-sdk
+
+if BR2_PACKAGE_PHYTIUM_FREE_RTOS
+
+config BR2_PACKAGE_PHYTIUM_FREE_RTOS_CPU_NAME
+        string "CPU name"
+        help
+          Supported CPU:
+	  "e2000q", "phytiumpi", "d2000", "ft2004".
+
+endif

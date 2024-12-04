@@ -1,0 +1,153 @@
+From 628d8bea52ba87c0b46eb6d4b489b6fa6fee561a Mon Sep 17 00:00:00 2001
+From: weishanshan1084 <weishanshan1084@phytium.com.cn>
+Date: Wed, 21 Feb 2024 14:11:08 +0800
+Subject: [PATCH] modify the dts of e2000q and phytiumpi to enable homo_rproc
+
+Signed-off-by: weishanshan1084 <weishanshan1084@phytium.com.cn>
+---
+ .../boot/dts/phytium/e2000q-come-board.dts    |  4 ++++
+ .../boot/dts/phytium/e2000q-demo-board.dts    |  4 ++++
+ .../boot/dts/phytium/e2000q-edu-board.dts     |  4 ++++
+ .../boot/dts/phytium/e2000q-hanwei-board.dts  |  4 ++++
+ .../boot/dts/phytium/e2000q-miniitx-board.dts |  4 ++++
+ .../boot/dts/phytium/e2000q-vpx-board.dts     |  4 ++++
+ arch/arm64/boot/dts/phytium/pe2204.dtsi       | 20 +++++++++++++++++++
+ .../boot/dts/phytium/phytiumpi_firefly.dts    |  4 ++++
+ 8 files changed, 48 insertions(+)
+
+diff --git a/arch/arm64/boot/dts/phytium/e2000q-come-board.dts b/arch/arm64/boot/dts/phytium/e2000q-come-board.dts
+index 8041464684..57fe545214 100755
+--- a/arch/arm64/boot/dts/phytium/e2000q-come-board.dts
++++ b/arch/arm64/boot/dts/phytium/e2000q-come-board.dts
+@@ -258,6 +258,10 @@ &gpio5 {
+ 	status = "okay";
+ };
+ 
++&homo_rproc {
++	status = "okay";
++};
++
+ &pwm1 {
+ 	phytium,db = <0 0 0 1000 1000 0>;
+ 	status = "okay";
+diff --git a/arch/arm64/boot/dts/phytium/e2000q-demo-board.dts b/arch/arm64/boot/dts/phytium/e2000q-demo-board.dts
+index a9d892fbbf..6ee897ccb1 100644
+--- a/arch/arm64/boot/dts/phytium/e2000q-demo-board.dts
++++ b/arch/arm64/boot/dts/phytium/e2000q-demo-board.dts
+@@ -268,6 +268,10 @@ &pmdk_dp {
+     status = "okay";
+ };
+ 
++&homo_rproc {
++	status = "okay";
++};
++
+ &rng0 {
+ 	status = "okay";
+ };
+diff --git a/arch/arm64/boot/dts/phytium/e2000q-edu-board.dts b/arch/arm64/boot/dts/phytium/e2000q-edu-board.dts
+index 5e9dd98c04..cdca4ecbff 100755
+--- a/arch/arm64/boot/dts/phytium/e2000q-edu-board.dts
++++ b/arch/arm64/boot/dts/phytium/e2000q-edu-board.dts
+@@ -345,3 +345,7 @@ &keypad {
+ 					0x03030044 /*KEY_44*/>;
+ 	status = "okay";
+ };
++
++&homo_rproc {
++	status = "okay";
++};
+diff --git a/arch/arm64/boot/dts/phytium/e2000q-hanwei-board.dts b/arch/arm64/boot/dts/phytium/e2000q-hanwei-board.dts
+index 5649d0826b..263b3b1f27 100755
+--- a/arch/arm64/boot/dts/phytium/e2000q-hanwei-board.dts
++++ b/arch/arm64/boot/dts/phytium/e2000q-hanwei-board.dts
+@@ -209,6 +209,10 @@ &gpio4 {
+ 	status = "okay";
+ };
+ 
++&homo_rproc {
++	status = "okay";
++};
++
+ &gpio5 {
+ 	status = "okay";
+ };
+diff --git a/arch/arm64/boot/dts/phytium/e2000q-miniitx-board.dts b/arch/arm64/boot/dts/phytium/e2000q-miniitx-board.dts
+index e2adaa4d51..409e6a34ec 100644
+--- a/arch/arm64/boot/dts/phytium/e2000q-miniitx-board.dts
++++ b/arch/arm64/boot/dts/phytium/e2000q-miniitx-board.dts
+@@ -323,6 +323,10 @@ &can1 {
+ 	status = "okay";
+ };
+ 
++&homo_rproc {
++	status = "okay";
++};
++
+ &rng0 {
+ 	status = "okay";
+ };
+diff --git a/arch/arm64/boot/dts/phytium/e2000q-vpx-board.dts b/arch/arm64/boot/dts/phytium/e2000q-vpx-board.dts
+index ce2bc39bc2..4413588b81 100755
+--- a/arch/arm64/boot/dts/phytium/e2000q-vpx-board.dts
++++ b/arch/arm64/boot/dts/phytium/e2000q-vpx-board.dts
+@@ -316,6 +316,10 @@ &can1 {
+ 	status = "okay";
+ };
+ 
++&homo_rproc {
++	status = "okay";
++};
++
+ &rng0 {
+ 	status = "okay";
+ };
+diff --git a/arch/arm64/boot/dts/phytium/pe2204.dtsi b/arch/arm64/boot/dts/phytium/pe2204.dtsi
+index 201a01e752..a2f192c361 100644
+--- a/arch/arm64/boot/dts/phytium/pe2204.dtsi
++++ b/arch/arm64/boot/dts/phytium/pe2204.dtsi
+@@ -10,6 +10,26 @@
+ / {
+ 	compatible = "phytium,pe2204";
+ 
++	reserved-memory {
++		#address-cells = <0x2>;
++		#size-cells = <0x2>;
++		ranges;
++		rproc: rproc@b0100000 {
++			/*下面的保留物理地址可以根据机器实际指定地址范围 */
++			no-map;
++			reg = <0x0 0xb0100000 0x0 0x19900000>;
++		};
++	};
++
++	homo_rproc: homo_rproc@0 {
++		compatible = "homo,rproc";
++		remote-processor = <3>;
++		inter-processor-interrupt = <9>;
++		memory-region = <&rproc>;
++		firmware-name = "openamp_core0.elf";
++		status = "disabled";
++	};
++
+ 	aliases {
+ 		ethernet0 = &macb0;
+ 		ethernet1 = &macb1;
+diff --git a/arch/arm64/boot/dts/phytium/phytiumpi_firefly.dts b/arch/arm64/boot/dts/phytium/phytiumpi_firefly.dts
+index 56f4e689ea..651a28156f 100644
+--- a/arch/arm64/boot/dts/phytium/phytiumpi_firefly.dts
++++ b/arch/arm64/boot/dts/phytium/phytiumpi_firefly.dts
+@@ -311,6 +311,10 @@ &pmdk_dp {
+ 	status = "okay";
+ };
+ 
++&homo_rproc {
++	status = "okay";
++};
++
+ &rng0 {
+ 	status = "okay";
+ };
+-- 
+2.25.1
+

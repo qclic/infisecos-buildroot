@@ -1,0 +1,28 @@
+config BR2_PACKAGE_XORG_ROGUE_UMLIBS
+	bool "xorg-rogue-umlibs"
+	select BR2_PACKAGE_HAS_LIBEGL
+	select BR2_PACKAGE_HAS_LIBGLES
+	select BR2_PACKAGE_HAS_LIBGBM
+	help
+	  This is a comment that explains what xorg-rogue-umlibs is. The help text
+	  should be wrapped.
+
+	  https://gitee.com/phytium_embedded/phytium-rogue-umlibs.git
+
+if BR2_PACKAGE_XORG_ROGUE_UMLIBS
+
+config BR2_PACKAGE_XORG_ROGUE_UMLIBS_FIRMWARE
+	bool "xorg-rogue-umlibs firmware"
+	help
+	  Install only xorg-rogue-umlibs firmware and do not install other files.
+
+config BR2_PACKAGE_PROVIDES_LIBEGL
+	default "xorg-rogue-umlibs"
+
+config BR2_PACKAGE_PROVIDES_LIBGLES
+	default "xorg-rogue-umlibs"
+
+config BR2_PACKAGE_PROVIDES_LIBGBM
+	default "xorg-rogue-umlibs"
+
+endif

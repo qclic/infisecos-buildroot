@@ -1,0 +1,6 @@
+config BR2_PACKAGE_RPMSG_DEMO
+	bool "rpmsg-demo"
+	help
+	  Phytium openamp rpmsg-demo.
+
+	  https://gitee.com/phytium_embedded/phytium-embedded-docs/blob/master/open-amp/rpmsg-demo.c

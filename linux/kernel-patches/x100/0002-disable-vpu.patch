@@ -1,0 +1,86 @@
+From 58b7e0798b9671a609b3e24405285bcf4c3fb345 Mon Sep 17 00:00:00 2001
+From: weishanshan1084 <weishanshan1084@phytium.com.cn>
+Date: Tue, 23 Apr 2024 09:56:56 +0800
+Subject: [PATCH] disable vpu
+
+Signed-off-by: weishanshan1084 <weishanshan1084@phytium.com.cn>
+---
+ arch/arm64/boot/dts/phytium/e2000q-come-board.dts    | 2 +-
+ arch/arm64/boot/dts/phytium/e2000q-demo-board.dts    | 2 +-
+ arch/arm64/boot/dts/phytium/e2000q-edu-board.dts     | 2 +-
+ arch/arm64/boot/dts/phytium/e2000q-hanwei-board.dts  | 2 +-
+ arch/arm64/boot/dts/phytium/e2000q-miniitx-board.dts | 2 +-
+ arch/arm64/boot/dts/phytium/e2000q-vpx-board.dts     | 2 +-
+ 6 files changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/arch/arm64/boot/dts/phytium/e2000q-come-board.dts b/arch/arm64/boot/dts/phytium/e2000q-come-board.dts
+index 6670686ff6..4d8cebb697 100755
+--- a/arch/arm64/boot/dts/phytium/e2000q-come-board.dts
++++ b/arch/arm64/boot/dts/phytium/e2000q-come-board.dts
+@@ -264,5 +264,5 @@ &pwm1 {
+ };
+ 
+ &vpu0 {
+-    status = "okay";
++    status = "disabled";
+ };
+diff --git a/arch/arm64/boot/dts/phytium/e2000q-demo-board.dts b/arch/arm64/boot/dts/phytium/e2000q-demo-board.dts
+index 785a3b61d7..ce8b35d6fd 100644
+--- a/arch/arm64/boot/dts/phytium/e2000q-demo-board.dts
++++ b/arch/arm64/boot/dts/phytium/e2000q-demo-board.dts
+@@ -273,5 +273,5 @@ &rng0 {
+ };
+ 
+ &vpu0 {
+-    status = "okay";
++    status = "disabled";
+ };
+diff --git a/arch/arm64/boot/dts/phytium/e2000q-edu-board.dts b/arch/arm64/boot/dts/phytium/e2000q-edu-board.dts
+index 19afde2a13..f78f4b0c42 100755
+--- a/arch/arm64/boot/dts/phytium/e2000q-edu-board.dts
++++ b/arch/arm64/boot/dts/phytium/e2000q-edu-board.dts
+@@ -270,7 +270,7 @@ &dc0 {
+ };
+ 
+ &vpu0 {
+-	status = "okay";
++	status = "disabled";
+ };
+ 
+ &i2s0 {
+diff --git a/arch/arm64/boot/dts/phytium/e2000q-hanwei-board.dts b/arch/arm64/boot/dts/phytium/e2000q-hanwei-board.dts
+index 02b635dd48..11a438fd64 100755
+--- a/arch/arm64/boot/dts/phytium/e2000q-hanwei-board.dts
++++ b/arch/arm64/boot/dts/phytium/e2000q-hanwei-board.dts
+@@ -214,5 +214,5 @@ &gpio5 {
+ };
+ 
+ &vpu0 {
+-    status = "okay";
++    status = "disabled";
+ };
+diff --git a/arch/arm64/boot/dts/phytium/e2000q-miniitx-board.dts b/arch/arm64/boot/dts/phytium/e2000q-miniitx-board.dts
+index 9d91bd9f45..5e7a22eee5 100644
+--- a/arch/arm64/boot/dts/phytium/e2000q-miniitx-board.dts
++++ b/arch/arm64/boot/dts/phytium/e2000q-miniitx-board.dts
+@@ -339,5 +339,5 @@ &rng0 {
+ };
+ 
+ &vpu0 {
+-	status = "okay";
++	status = "disabled";
+ };
+diff --git a/arch/arm64/boot/dts/phytium/e2000q-vpx-board.dts b/arch/arm64/boot/dts/phytium/e2000q-vpx-board.dts
+index 367b136ef7..3a7c9ec9f3 100755
+--- a/arch/arm64/boot/dts/phytium/e2000q-vpx-board.dts
++++ b/arch/arm64/boot/dts/phytium/e2000q-vpx-board.dts
+@@ -321,5 +321,5 @@ &rng0 {
+ };
+ 
+ &vpu0 {
+-    status = "okay";
++    status = "disabled";
+ };
+-- 
+2.25.1
+

@@ -1,0 +1,17 @@
+# configuration values for the phytium-swap-config service
+#
+# enable the phytium-swap-config service?
+ENABLED=true
+
+# Swap enabled by default, unless set to disabled
+# SWAP=false
+
+# percentage of swap compared to physically available DRAM.
+# Huge overcommitment (200) is possible and sometimes desirable. 
+# SWAP_PERCENTAGE=100
+
+# The swappiness parameter controls the tendency of the kernel to
+# move processes out of physical memory memory and onto the swap disk.
+# See https://help.ubuntu.com/community/SwapFaq
+# SWAPPINESS=60
+

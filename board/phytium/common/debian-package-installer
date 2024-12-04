@@ -1,0 +1,127 @@
+#!/bin/bash
+
+DISTROTYPE=$3
+DISTROSCALE=$5
+tarch=$1
+
+do_distrorfs_second_stage() {
+    [ -f /etc/buildinfo -a ! -f /proc/uptime ] && return
+    packages_list=/usr/aptpkg/$4
+    . $packages_list
+
+    echo "1." $1
+    echo "2." $2
+    echo "3." $3
+    echo "4." $4
+    echo "5." $5
+    echo "6." $6
+    if [ ! -d /home/user ]; then
+    	useradd -m -d /home/user -s /bin/bash user
+    	gpasswd -a user sudo
+    	echo -e 'Phytium@123\nPhytium@123\n' | passwd root
+    	echo -e 'Phytium@123\nPhytium@123\n' | passwd user
+    	usermod -aG sudo user
+	chown -R user:user /home/user
+    fi
+    if [ -d /etc/shadow ]; then
+	cd /etc
+	chmod u=rw,g=r,o=r shadow
+    fi
+    # set default hostname
+    echo localhost > /etc/hostname
+
+    # set apt sources list to install additional packages
+    asl=/etc/apt/sources.list
+    rm -f $asl
+    cat <<-EOF > $asl
+	deb http://mirrors.tuna.tsinghua.edu.cn/debian/ bullseye main contrib non-free
+	deb http://mirrors.tuna.tsinghua.edu.cn/debian/ bullseye-updates main contrib non-free
+	deb http://mirrors.tuna.tsinghua.edu.cn/debian/ bullseye-backports main contrib non-free
+	deb http://mirrors.tuna.tsinghua.edu.cn/debian-security bullseye-security main contrib non-free
+	EOF
+    chmod +777 /tmp
+    apt update
+    DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true LC_ALL=C LANGUAGE=C LANG=C \
+    apt-get -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" update || exit 1
+
+    DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true LC_ALL=C LANGUAGE=C LANG=C \
+    apt-get -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" upgrade || exit 1
+    echo upgraded
+
+    export LC_ALL=C LANGUAGE=C LANG=C
+
+    echo installing base packages: $pkglist
+    for pkg in $additional_base_packages_list; do
+	echo Installing $pkg ...
+	DEBIAN_FRONTEND=noninteractive apt-get -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" install $pkg || exit 1
+    done
+
+    dpkg -l | grep linux-headers | cut -d ' ' -f3 | xargs dpkg --purge
+    dpkg -l | grep linux-kbuild | cut -d ' ' -f3 | xargs dpkg --purge
+
+    echo installed additional packages.
+    if [ $6 = desktop ]; then
+	for pkg in task-xfce-desktop ukui-greeter; do
+                DEBIAN_FRONTEND=noninteractive apt -y install $pkg || true
+	done
+	usermod -a -G video,render,audio user
+
+	ln -sf /lib/systemd/system/lightdm.service /etc/systemd/system/display-manager.service
+	sed -i "s/gdm3/lightdm/" /etc/X11/default-display-manager
+	echo '[SeatDefaults]'  >> /etc/lightdm/lightdm.conf
+	echo 'greeter-session=ukui-greeter'  >> /etc/lightdm/lightdm.conf
+	echo 'user-session=xfce'  >> /etc/lightdm/lightdm.conf
+
+	#cups disable TLSv1.0 and TLSv1.1
+        if [ -f /etc/cups/cupsd.conf ]; then
+                echo "SSLOptions MinTLS1.2" >> /etc/cups/cupsd.conf
+	fi	
+    fi
+
+    if dpkg -s openssh-server &> /dev/null; then
+	sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/g' /etc/ssh/sshd_config
+	#ssh: disable weak MAC algorithm
+	echo "MACs hmac-sha2-256,hmac-sha2-512" >> /etc/ssh/sshd_config
+    fi
+
+    if [ -f /etc/dropbear-initramfs/authorized_keys -a $2 = bullseye ]; then
+	echo "install dropbear-initramfs"
+	DEBIAN_FRONTEND=noninteractive apt -y install dropbear-initramfs || true
+	sed -i 's/#DROPBEAR_OPTIONS=/DROPBEAR_OPTIONS="-p 2222"/g' /etc/dropbear-initramfs/config
+    fi
+
+    # clean cached packages
+    apt-get clean
+
+
+    if [ $1 = arm64 ]; then
+	sysarch=aarch64-linux-gnu
+    elif [ $1 = armhf ]; then
+	sysarch=arm-linux-gnueabihf
+    fi
+
+    # some shared libraries locate in /lib/aarch64-linux-gnu(or /lib/arm-linux-gnueabihf) and /usr/local/lib
+    echo export LD_LIBRARY_PATH=/usr/local/lib:/usr/lib/$sysarch:/lib/$sysarch >> /etc/profile
+
+    tmpusr=`ls -t /home | cut -d' ' -f1 | head -1`
+    [ -d /home/$tmpusr -a "$tmpusr" != "user" ] && rm -rf /home/$tmpusr
+
+    test -c /dev/pts/0 && umount /dev/pts
+    test -f /proc/uptime && umount /proc
+
+    echo APT Packages List: > /etc/packages.list
+    echo -e "Package\t Version\t Download-Size\t APT-Sources" >> /etc/packages.list
+    apt list --installed | cut  -d/ -f1 | xargs apt show | \
+	grep -E '^Package:|^APT-Sources:|^Version:|^Download-Size:'  > packagelist
+    lnum=`wc -l packagelist |cut -d' ' -f1`
+    for((i=1; i<$lnum;)); do
+	t=$[ $i + 3 ]
+	sed -n "${i},${t}p"  packagelist | grep -E 'Package:|APT-Sources:|Version:|Download-Size:' | \
+	tr "\n" " "  | cut -d' ' -f2,4,6,7,9,10 >> /etc/packages.list
+	i=$[ $i + 4 ]
+    done
+    rm -f packagelist
+}
+
+do_distrorfs_second_stage $1 $2 $3 $4 $5 $6
+# end second stage installing

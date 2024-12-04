@@ -1,0 +1,54 @@
+#!/bin/sh
+#
+# rootfs-resize        Starts rootfs-resize.
+#
+rootfs_chown() {
+	printf "\t chown folder in the rootfs: "
+
+	[ -d /var/cache/man ] && chown -R man:root /var/cache/man
+	[ -d /var/lib/sddm ] && chown -R sddm:sddm /var/lib/sddm
+	if [ -d /var/lib/lightdm ]; then
+                chown -R lightdm:lightdm /var/lib/lightdm || true
+                chmod 0750 /var/lib/lightdm
+        fi
+
+	chown -R user:user /home/user
+	if [ $? -eq 0 ]
+	then
+		echo  "OK"
+	else
+		echo  "Failed"
+		exit 1
+	fi
+	echo 0
+}
+
+start() {
+	printf "Starting rootfs-chown: \n"
+	rootfs_chown
+}
+
+stop() {
+	printf "Stopping rootfs-chown: "
+	echo "OK"
+}
+restart() {
+	stop
+	start
+}
+
+case "$1" in
+	start)
+		start
+		;;
+	stop)
+		stop
+		;;
+	restart|reload)
+		restart
+		;;
+	*)
+		echo "Usage: $0 {start|stop|restart}"
+		exit 1
+esac
+exit $?

@@ -1,0 +1,138 @@
+From 49cd7fd9e836d96991def4da63bc2f4ad9f76eba Mon Sep 17 00:00:00 2001
+From: weishanshan1084 <weishanshan1084@phytium.com.cn>
+Date: Tue, 23 Apr 2024 09:41:49 +0800
+Subject: [PATCH] disable dc
+
+Signed-off-by: weishanshan1084 <weishanshan1084@phytium.com.cn>
+---
+ arch/arm64/boot/dts/phytium/e2000d-chillipi-edu-board.dts | 2 +-
+ arch/arm64/boot/dts/phytium/e2000d-demo-board.dts         | 2 +-
+ arch/arm64/boot/dts/phytium/e2000d-miniitx-board.dts      | 2 +-
+ arch/arm64/boot/dts/phytium/e2000d-power-board.dts        | 2 +-
+ arch/arm64/boot/dts/phytium/e2000q-come-board.dts         | 2 +-
+ arch/arm64/boot/dts/phytium/e2000q-demo-board.dts         | 2 +-
+ arch/arm64/boot/dts/phytium/e2000q-edu-board.dts          | 2 +-
+ arch/arm64/boot/dts/phytium/e2000q-miniitx-board.dts      | 2 +-
+ arch/arm64/boot/dts/phytium/e2000q-vpx-board.dts          | 2 +-
+ 9 files changed, 9 insertions(+), 9 deletions(-)
+
+diff --git a/arch/arm64/boot/dts/phytium/e2000d-chillipi-edu-board.dts b/arch/arm64/boot/dts/phytium/e2000d-chillipi-edu-board.dts
+index 0ab55a50ff..7da2850bca 100644
+--- a/arch/arm64/boot/dts/phytium/e2000d-chillipi-edu-board.dts
++++ b/arch/arm64/boot/dts/phytium/e2000d-chillipi-edu-board.dts
+@@ -311,7 +311,7 @@ &i2s0 {
+ &dc0 {
+ 	pipe_mask = /bits/ 8 <0x2>;
+ 	edp_mask = /bits/ 8 <0x0>;
+-	status = "okay";
++	status = "disabled";
+ };
+ 
+ &i2s_dp1 {
+diff --git a/arch/arm64/boot/dts/phytium/e2000d-demo-board.dts b/arch/arm64/boot/dts/phytium/e2000d-demo-board.dts
+index 681e7b1e53..1f63817f69 100644
+--- a/arch/arm64/boot/dts/phytium/e2000d-demo-board.dts
++++ b/arch/arm64/boot/dts/phytium/e2000d-demo-board.dts
+@@ -251,7 +251,7 @@ &i2s0 {
+ &dc0 {
+ 	pipe_mask = /bits/ 8 <0x2>;
+ 	edp_mask = /bits/ 8 <0x0>;
+-	status = "okay";
++	status = "disabled";
+ };
+ 
+ &i2s_dp1 {
+diff --git a/arch/arm64/boot/dts/phytium/e2000d-miniitx-board.dts b/arch/arm64/boot/dts/phytium/e2000d-miniitx-board.dts
+index 6f38e532a2..4ffdf093e4 100644
+--- a/arch/arm64/boot/dts/phytium/e2000d-miniitx-board.dts
++++ b/arch/arm64/boot/dts/phytium/e2000d-miniitx-board.dts
+@@ -279,7 +279,7 @@ &sata1 {
+ };
+ 
+ &dc0 {
+-    status = "okay";
++    status = "disabled";
+     pipe_mask = [02];
+     edp_mask = [00];
+ };
+diff --git a/arch/arm64/boot/dts/phytium/e2000d-power-board.dts b/arch/arm64/boot/dts/phytium/e2000d-power-board.dts
+index 1726a84fa7..fee349c8ac 100755
+--- a/arch/arm64/boot/dts/phytium/e2000d-power-board.dts
++++ b/arch/arm64/boot/dts/phytium/e2000d-power-board.dts
+@@ -162,7 +162,7 @@ &macb3 {
+ &dc0 {
+ 	pipe_mask = [02];
+ 	edp_mask = [00];
+-	status = "okay";
++	status = "disabled";
+ };
+ 
+ &can0 {
+diff --git a/arch/arm64/boot/dts/phytium/e2000q-come-board.dts b/arch/arm64/boot/dts/phytium/e2000q-come-board.dts
+index 1ce5c0034d..6670686ff6 100755
+--- a/arch/arm64/boot/dts/phytium/e2000q-come-board.dts
++++ b/arch/arm64/boot/dts/phytium/e2000q-come-board.dts
+@@ -229,7 +229,7 @@ &hda0 {
+ };
+ 
+ &dc0 {
+-	status = "okay";
++	status = "disabled";
+ 	pipe_mask = [03];
+ 	edp_mask = [00];
+ };
+diff --git a/arch/arm64/boot/dts/phytium/e2000q-demo-board.dts b/arch/arm64/boot/dts/phytium/e2000q-demo-board.dts
+index 71292b08c8..785a3b61d7 100644
+--- a/arch/arm64/boot/dts/phytium/e2000q-demo-board.dts
++++ b/arch/arm64/boot/dts/phytium/e2000q-demo-board.dts
+@@ -251,7 +251,7 @@ &i2s0 {
+ &dc0 {
+ 	pipe_mask = /bits/ 8 <0x3>;
+ 	edp_mask = /bits/ 8 <0x0>;
+-	status = "okay";
++	status = "disabled";
+ };
+ 
+ &i2s_dp0 {
+diff --git a/arch/arm64/boot/dts/phytium/e2000q-edu-board.dts b/arch/arm64/boot/dts/phytium/e2000q-edu-board.dts
+index 96c84e5eab..19afde2a13 100755
+--- a/arch/arm64/boot/dts/phytium/e2000q-edu-board.dts
++++ b/arch/arm64/boot/dts/phytium/e2000q-edu-board.dts
+@@ -264,7 +264,7 @@ &sata1 {
+ };
+ 
+ &dc0 {
+-	status = "okay";
++	status = "disabled";
+ 	pipe_mask = [01];
+ 	edp_mask = [00];
+ };
+diff --git a/arch/arm64/boot/dts/phytium/e2000q-miniitx-board.dts b/arch/arm64/boot/dts/phytium/e2000q-miniitx-board.dts
+index 26c25c1603..9d91bd9f45 100644
+--- a/arch/arm64/boot/dts/phytium/e2000q-miniitx-board.dts
++++ b/arch/arm64/boot/dts/phytium/e2000q-miniitx-board.dts
+@@ -234,7 +234,7 @@ &dc0 {
+ 	memory-region = <&display_reserved>;
+ 	pipe_mask = /bits/ 8 <0x3>;
+ 	edp_mask = /bits/ 8 <0x0>;
+-	status = "okay";
++	status = "disabled";
+ };
+ 
+ &i2s0 {
+diff --git a/arch/arm64/boot/dts/phytium/e2000q-vpx-board.dts b/arch/arm64/boot/dts/phytium/e2000q-vpx-board.dts
+index c3a6950a46..367b136ef7 100755
+--- a/arch/arm64/boot/dts/phytium/e2000q-vpx-board.dts
++++ b/arch/arm64/boot/dts/phytium/e2000q-vpx-board.dts
+@@ -231,7 +231,7 @@ &macb3 {
+ &dc0 {
+ 	pipe_mask = [03];
+ 	edp_mask = [00];
+-	status = "okay";
++	status = "disabled";
+ };
+ 
+ &i2s0 {
+-- 
+2.25.1
+

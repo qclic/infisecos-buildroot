@@ -1,0 +1,164 @@
+#!/bin/bash
+
+DISTROTYPE=$3
+DISTROSCALE=$5
+tarch=$1
+
+do_distrorfs_second_stage() {
+    [ -f /etc/buildinfo -a ! -f /proc/uptime ] && return
+    packages_list=/usr/aptpkg/$4
+    . $packages_list
+
+    echo "1." $1
+    echo "2." $2
+    echo "3." $3
+    echo "4." $4
+    echo "5." $5
+    echo "6." $6
+    echo "7." $7
+    if [ ! -d /home/user ]; then
+    	useradd -m -d /home/user -s /bin/bash user
+    	gpasswd -a user sudo
+    	echo -e 'Phytium@123\nPhytium@123\n' | passwd root
+    	echo -e 'Phytium@123\nPhytium@123\n' | passwd user
+    	usermod -aG sudo user
+	chown -R user:user /home/user
+    fi
+    if [ -d /etc/shadow ]; then
+	cd /etc
+	chmod u=rw,g=r,o=r shadow
+    fi
+    # set default hostname
+    echo localhost > /etc/hostname
+
+    test -f /proc/uptime || mount -t proc proc /proc
+
+    # set apt sources list to install additional packages
+    asl=/etc/apt/sources.list
+    rm -f $asl
+    cat <<-EOF > $asl
+	deb http://mirrors.tuna.tsinghua.edu.cn/ubuntu-ports/ $2 main restricted universe multiverse
+	deb http://mirrors.tuna.tsinghua.edu.cn/ubuntu-ports/ $2-updates main restricted universe multiverse
+	deb http://mirrors.tuna.tsinghua.edu.cn/ubuntu-ports/ $2-backports main restricted universe multiverse
+	deb http://mirrors.tuna.tsinghua.edu.cn/ubuntu-ports/ $2-security main restricted universe multiverse
+	EOF
+    chmod +777 /tmp
+    DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true LC_ALL=C LANGUAGE=C LANG=C \
+    apt-get -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" update || exit 1
+
+    DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true LC_ALL=C LANGUAGE=C LANG=C \
+    apt-get -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" upgrade || exit 1
+    echo upgraded
+
+    export LC_ALL=C LANGUAGE=C LANG=C
+
+    echo installing base packages: $pkglist
+    for pkg in $additional_base_packages_list; do
+	echo Installing $pkg ...
+	DEBIAN_FRONTEND=noninteractive apt-get -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" install $pkg || exit 1
+    done
+
+    dpkg -l | grep linux-headers | cut -d ' ' -f3 | xargs dpkg --purge
+
+    test -f /dev/pts/ptmx || mount -t devpts devpts /dev/pts
+
+    echo installed additional packages.
+    if [ $6 = desktop ]; then
+	for pkg in xfce4 ukui-greeter; do
+                DEBIAN_FRONTEND=noninteractive apt -y install $pkg || true
+	done
+	if [ $2 = jammy ]; then
+		sed -i 's/debian-x-terminal-emulator/gnome-terminal/g' /etc/xdg/xfce4/helpers.rc || true
+		DEBIAN_FRONTEND=noninteractive apt -y install software-properties-common || true
+		DEBIAN_FRONTEND=noninteractive add-apt-repository -y ppa:mozillateam/ppa || true
+		sed -i 's/ppa.launchpadcontent.net/launchpad.proxy.ustclug.org/g' /etc/apt/sources.list.d/mozillateam-*.list && \
+		DEBIAN_FRONTEND=noninteractive apt -y update || true
+		cat <<-EOF > /etc/apt/preferences.d/mozillateamppa
+		Package: firefox
+		Pin: release o=LP-PPA-mozillateam
+		Pin-Priority: 501
+		EOF
+	fi
+	DEBIAN_FRONTEND=noninteractive apt -y install firefox || true
+
+	usermod -a -G video,render,audio user
+	
+	ln -sf /lib/systemd/system/lightdm.service /etc/systemd/system/display-manager.service
+	sed -i "s/gdm3/lightdm/" /etc/X11/default-display-manager
+	echo '[SeatDefaults]'  >> /etc/lightdm/lightdm.conf
+	echo 'greeter-session=ukui-greeter'  >> /etc/lightdm/lightdm.conf
+	echo 'user-session=xfce'  >> /etc/lightdm/lightdm.conf
+
+	#cups disable TLSv1.0 and TLSv1.1
+        if [ -f /etc/cups/cupsd.conf ]; then
+                echo "SSLOptions MinTLS1.2" >> /etc/cups/cupsd.conf
+        fi
+
+	echo installing desktop packages: $pkglist
+	for pkg in $additional_desktop_packages_list; do
+		echo Installing $pkg ...
+		DEBIAN_FRONTEND=noninteractive apt-get -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" install $pkg || exit 1
+	done
+
+	if [ "$7" = "ros2" -a "$2" = "jammy" ]; then
+		curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg || true
+		echo "deb [arch=arm64 signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu jammy main" | tee /etc/apt/sources.list.d/ros2.list > /dev/null
+		DEBIAN_FRONTEND=noninteractive apt -y update || true
+		DEBIAN_FRONTEND=noninteractive apt -y install ros-humble-desktop || true
+		DEBIAN_FRONTEND=noninteractive apt -y install ros-dev-tools || true
+	fi
+    fi
+
+    if dpkg -s openssh-server &> /dev/null; then
+        sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/g' /etc/ssh/sshd_config
+        #ssh: disable weak MAC algorithm
+        echo "MACs hmac-sha2-256,hmac-sha2-512" >> /etc/ssh/sshd_config
+    fi
+
+    if [ -f /etc/dropbear/initramfs/authorized_keys -a $2 = jammy ]; then
+	echo "install dropbear-initramfs"
+	DEBIAN_FRONTEND=noninteractive apt -y install dropbear-initramfs || true
+	sed -i 's/#DROPBEAR_OPTIONS=/DROPBEAR_OPTIONS="-p 2222"/g' /etc/dropbear/initramfs/dropbear.conf
+    fi
+
+    if [ -f /etc/dropbear-initramfs/authorized_keys -a $2 = focal ]; then
+	echo "install dropbear-initramfs"
+	DEBIAN_FRONTEND=noninteractive apt -y install dropbear-initramfs || true
+	sed -i 's/#DROPBEAR_OPTIONS=/DROPBEAR_OPTIONS="-p 2222"/g' /etc/dropbear-initramfs/config
+    fi
+    # clean cached packages
+    apt-get clean
+
+
+    if [ $1 = arm64 ]; then
+	sysarch=aarch64-linux-gnu
+    elif [ $1 = armhf ]; then
+	sysarch=arm-linux-gnueabihf
+    fi
+
+
+    # some shared libraries locate in /lib/aarch64-linux-gnu(or /lib/arm-linux-gnueabihf) and /usr/local/lib
+    echo export LD_LIBRARY_PATH=/usr/local/lib:/usr/lib/$sysarch:/lib/$sysarch >> /etc/profile
+
+    tmpusr=`ls -t /home | cut -d' ' -f1 | head -1`
+    [ -d /home/$tmpusr -a "$tmpusr" != "user" ] && rm -rf /home/$tmpusr
+
+    test -c /dev/pts/ptmx && umount /dev/pts
+    test -f /proc/uptime && umount /proc
+
+    echo APT Packages List: > /etc/packages.list
+    echo -e "Package\t Version\t Download-Size\t APT-Sources" >> /etc/packages.list
+    apt list --installed | cut  -d/ -f1 | xargs apt show | \
+	grep -E '^Package:|^APT-Sources:|^Version:|^Download-Size:'  > packagelist
+    lnum=`wc -l packagelist |cut -d' ' -f1`
+    for((i=1; i<$lnum;)); do
+	t=$[ $i + 3 ]
+	sed -n "${i},${t}p"  packagelist | grep -E 'Package:|APT-Sources:|Version:|Download-Size:' | \
+	tr "\n" " "  | cut -d' ' -f2,4,6,7,9,10 >> /etc/packages.list
+	i=$[ $i + 4 ]
+    done
+    rm -f packagelist
+}
+
+do_distrorfs_second_stage $1 $2 $3 $4 $5 $6 $7
+# end second stage installing
