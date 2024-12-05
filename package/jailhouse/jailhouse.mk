@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-JAILHOUSE_VERSION = 0557a57fdaf9080fd796559614751224085922e1
+JAILHOUSE_VERSION = 9bcbc799e80142ee280394269462f5b33e866c41
 JAILHOUSE_SITE = https://gitee.com/itexp/jailhouse.git
 JAILHOUSE_SITE_METHOD = git
 JAILHOUSE_LICENSE = GPL-2.0
@@ -47,11 +47,11 @@ define JAILHOUSE_INSTALL_TARGET_CMDS
 	$(INSTALL) -d -m 0755 $(TARGET_DIR)/etc/jailhouse
 	$(INSTALL) -D -m 0644 $(@D)/configs/*/*.cell $(TARGET_DIR)/etc/jailhouse
 
+	$(INSTALL) -d -m 0755 $(TARGET_DIR)/etc/jailhouse/dtbs
+	$(INSTALL) -D -m 0644 $(@D)/configs/*/dts/*.dtb $(TARGET_DIR)/etc/jailhouse/dtbs
+
 	$(INSTALL) -d -m 0755 $(TARGET_DIR)/usr/local/libexec/jailhouse/demos
 	$(INSTALL) -D -m 0755 $(@D)/inmates/demos/*/*.bin $(TARGET_DIR)/usr/local/libexec/jailhouse/demos
-
-	$(INSTALL) -d -m 0755 $(TARGET_DIR)/usr/local/libexec/jailhouse/dtb
-	$(INSTALL) -D -m 0644 $(@D)/configs/arm64/dts/*.dtb $(TARGET_DIR)/usr/local/libexec/jailhouse/dtb
 
 	$(if $(BR2_PACKAGE_JAILHOUSE_HELPER_SCRIPTS), \
 		cd $(@D) && $(PKG_PYTHON_SETUPTOOLS_ENV) $(HOST_DIR)/bin/python setup.py install --no-compile $(PKG_PYTHON_SETUPTOOLS_INSTALL_TARGET_OPTS))
