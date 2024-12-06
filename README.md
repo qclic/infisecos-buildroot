@@ -1,27 +1,41 @@
-# secos-buildroot
+# 简介
 
-基于 Buildroot 官方的 2022.2 版本修改的 SecOS 构建系统，目前支持飞腾派、树莓派 4B 开发板
+基于 Buildroot 官方的 2022.2 版本修改的 InfisecOS 构建系统，目前支持构建适用于飞腾派、树莓派 4B 开发板的相关镜像
 
 # 开发环境
 
-## 系统要求
-Buildroot被设计为在x86 Linux系统上运行，我们只支持在Ubuntu20.04、Ubuntu22.04、Debian11这三种x86主机上运行phytium-linux-buildroot，不支持其他系统。
-Buildroot需要主机系统上安装以下依赖包：
-```
+Buildroot 被设计为在 x86 Linux 系统上运行，目前仅在 Ubuntu20.04、Ubuntu22.04 这三种 x86 主机上进行了开发验证，其他系统也可能支持，但是未经验证。
+
+# 构建
+
+## 安装依赖
+
+Buildroot 需要主机系统上安装以下依赖包：
+
+```bash
 $ sudo apt update
 $ sudo apt install debianutils sed make binutils build-essential gcc \
 g++ bash patch gzip bzip2 perl tar cpio unzip rsync file bc wget git \
 debootstrap qemu-user-static binfmt-support debian-archive-keyring
 ```
-对于Debian11系统，需要设置PATH环境变量：`PATH=$PATH:/usr/sbin`  
+
+## 配置文件
+
+|开发板|配置|内核|
+|----|----|----|
+|Phytium Pi|phytiumpi_defconfig| phytium kernel|
+|Phytium Pi|phytiumpi_openeuler_defconfig| openEuler kernel|
+|Raspberry Pi|raspberrypi4_64_defconfig| phytium kernel|
+|Raspberry Pi|raspberrypi4_64_openeuler_defconfig| openEuler kernel|
 
 ## 构建过程
 
-1. 加载 defconfig
-`$ make xxx_defconfig`
+1. 加载 defconfig `$ make xxx_defconfig`
 
-2. 编译
-`$ make`
+2. 编译 `$ make`
 
-3. 镜像的输出位置
-生成的根文件系统、内核、img 镜像位于 output/images 目录。
+3. 生成的根文件系统、内核、SD 卡镜像位于 output/images 目录。
+
+# 文档
+
+TODO
