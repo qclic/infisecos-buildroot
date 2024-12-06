@@ -2,7 +2,7 @@
 
 set -e
 
-BOARD_DIR="$(dirname $(pwd))"
+BOARD_DIR="$(dirname $(dirname $0))"
 BOARD_NAME="$(basename ${BOARD_DIR})"
 GENIMAGE_CFG="${BOARD_DIR}/jailhouse/genimage-${BOARD_NAME}.cfg"
 GENIMAGE_TMP="${BUILD_DIR}/genimage.tmp"
