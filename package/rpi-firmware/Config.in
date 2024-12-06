@@ -69,6 +69,24 @@ config BR2_PACKAGE_RPI_FIRMWARE_CONFIG_FILE
 	  Path to a file stored as config.txt in the boot partiton
 	  of the generated SD card image.
 
+config BR2_PACKAGE_RPI_FIRMWARE_CMDLINE_FILE
+	string "Path to a file stored as boot/cmdline.txt"
+	help
+	  Path to a file stored as cmdline.txt in the boot partiton
+	  of the generated SD card image.
+
+config BR2_PACKAGE_RPI_FIRMWARE_JAILHOUSE_DTBO_FILE
+	string "Path to a file stored as boot/overlays/jailhouse-overlay.dtbo"
+	help
+	  Path to a file stored as jailhouse-overlay.dtbo in the boot partiton
+	  of the generated SD card image.
+
+config BR2_PACKAGE_RPI_FIRMWARE_ARM_STUB_FILE
+	string "Path to a file stored as boot/bl31.bin"
+	help
+	  Path to a file stored as bl31.bin in the boot partiton
+	  of the generated SD card image.
+
 config BR2_PACKAGE_RPI_FIRMWARE_INSTALL_DTBS
 	bool "Install Device Tree Blobs (DTBs)"
 	default y

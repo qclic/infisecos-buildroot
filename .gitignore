@@ -13,3 +13,5 @@
 *.rej
 *~
 *.pyc
+build_raspi4
+build_phytiumpi

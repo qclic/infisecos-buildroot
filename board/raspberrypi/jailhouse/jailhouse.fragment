@@ -1,0 +1,4 @@
+#
+# jailhouse depends on the following configuration options
+#
+CONFIG_HOTPLUG_CPU=y
