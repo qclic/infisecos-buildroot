@@ -1,20 +1,33 @@
-# Please note that this is only a sample, we recommend you to change it to fit
-# your needs.
-# You should override this file using BR2_PACKAGE_RPI_FIRMWARE_CONFIG_FILE.
-# See http://buildroot.org/manual.html#rootfs-custom
-# and http://elinux.org/RPiconfig for a description of config.txt syntax
+# 
+# https://www.raspberrypi.com/documentation/computers/config_txt.html
+# 
 
+# start_file and fixup_file options specify the firmware files transferred to the VideoCore GPU prior to booting.
 start_file=start4.elf
 fixup_file=fixup4.dat
-
+# kernel is the alternative filename on the boot partition for loading the kernel.
 kernel=Image
 
 # To use an external initramfs file
-#initramfs rootfs.cpio.gz
+# initramfs rootfs.cpio.gz
 
-# Disable overscan assuming the display supports displaying the full resolution
-# If the text shown on the screen disappears off the edge, comment this out
+# [Legacy config.txt options] 
+# The default value for disable_overscan is 0 which gives default values of overscan for 
+# the left, right, top, and bottom edges of 48 for HD CEA modes, 32 for SD CEA modes, and 0 for DMT modes.
+# Set disable_overscan to 1 to disable the default values of overscan that are set by the firmware.
 disable_overscan=1
+
+# [Legacy config.txt options] 
+# On the Raspberry Pi 4B, if this value is set to 0 then the interrupts 
+# will be routed to the Arm cores using the legacy interrupt controller, 
+# rather than via the GIC-400. The default value is 1.
+enable_gic=1
+
+# [Legacy config.txt options] 
+# Setting uart_2ndstage=1 causes the second-stage loader (bootcode.bin on devices 
+# prior to the Raspberry Pi 4, or the boot code in the EEPROM for Raspberry Pi 4 devices) 
+# and the main firmware (start*.elf) to output diagnostic information to UART0.
+uart_2ndstage=1
 
 # How much memory in MB to assign to the GPU on Pi models having
 # 256, 512 or 1024 MB total memory
@@ -22,11 +35,19 @@ disable_overscan=1
 # gpu_mem_512=100
 # gpu_mem_1024=100
 
-# fixes rpi (3B, 3B+, 3A+, 4B and Zero W) ttyAMA0 serial console
+# ==============================================================================
+# for raspberrypi 4b, the mini UART is primary UART, can switch by the following device tree overlay
+#
+# disable-bt disables the Bluetooth device and makes the first PL011 (UART0) the primary UART.
+# dtoverlay=disable-bt
+#
+# miniuart-bt switches the Bluetooth function to use the mini UART, 
+# and makes the first PL011 (UART0) the primary UART. 
+# Note that this may reduce the maximum usable baud rate (see mini UART limitations below). 
+# You must also set the VPU core clock to a fixed frequency using either force_turbo=1 or core_freq=250.
 # dtoverlay=miniuart-bt
-
-# enable autoprobing of Bluetooth driver without need of hciattach/btattach
-# dtoverlay=krnbt=on
+# core_freq=250
+# ==============================================================================
 
 # Enable VC4 Graphics
 dtoverlay=vc4-fkms-v3d
@@ -36,8 +57,6 @@ arm_64bit=1
 
 # other configs
 enable_uart=1
-enable_gic=1
-uart_2ndstage=1
 
 # ARM stub configuration
 armstub=bl31.bin
