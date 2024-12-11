@@ -445,6 +445,7 @@ menu "Firmware"
 	source "package/phytium-standalone/Config.in"
 	source "package/phytium-free-rtos/Config.in"
 	source "package/rpmsg-demo/Config.in"
+	source "package/arceos/Config.in"
 endmenu
 	source "package/18xx-ti-utils/Config.in"
 	source "package/a10disp/Config.in"

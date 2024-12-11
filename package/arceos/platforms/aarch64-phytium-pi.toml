@@ -1,0 +1,39 @@
+# Architecture identifier.
+arch = "aarch64"
+# Platform identifier.
+platform = "aarch64-phytium-pi"
+# Platform family.
+family = "aarch64-phytium-pi"
+
+# Base address of the whole physical memory.
+phys-memory-base = "0xb2000000"
+# Size of the whole physical memory.
+phys-memory-size = "0x0E00_0000" # 72M
+# Base physical address of the kernel image.
+kernel-base-paddr = "0xb2000000"
+# Base virtual address of the kernel image.
+kernel-base-vaddr = "0xffff_0000_b200_0000"
+# Linear mapping offset, for quick conversions between physical and virtual
+# addresses.
+phys-virt-offset = "0xffff_0000_0000_0000"
+# Kernel address space base.
+kernel-aspace-base = "0xffff_0000_0000_0000"
+# Kernel address space size.
+kernel-aspace-size = "0x0000_ffff_ffff_f000"
+# MMIO regions with format (`base_paddr`, `size`).
+mmio-regions = [
+    ["0x2800_D000", "0x1000"], # UART 1
+]
+
+# UART Address
+uart-paddr = "0x2800_D000"
+# UART Irq num
+uart-irq = "24"
+
+# PSCI
+psci-method = "smc"
+
+# GICC Address
+gicc-paddr = "0x3080_0000"
+# TODO: gicv3 dosen't support yet, there is no gicd and need a gicr address.
+gicd-paddr = "0x3088_0000"
