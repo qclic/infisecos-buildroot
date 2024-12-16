@@ -1,41 +1,69 @@
-# 简介
+<div align="center">
 
-基于 Buildroot 官方的 2022.2 版本修改的 InfisecOS 构建系统，目前支持构建适用于飞腾派、树莓派 4B 开发板的相关镜像
+<img src="https://qclic.github.io/images/site/logo.svg" alt="infisecos-logo" width="64">
 
-# 开发环境
+</div>
 
-Buildroot 被设计为在 x86 Linux 系统上运行，目前仅在 Ubuntu20.04、Ubuntu22.04 这三种 x86 主机上进行了开发验证，其他系统也可能支持，但是未经验证。
+<h2 align="center">InfisecOS</h1>
 
-# 构建
+<p align="center">A security operating system focused on the AIoT field</p>
 
-## 安装依赖
+<!-- <div align="center">
 
-Buildroot 需要主机系统上安装以下依赖包：
+[![GitHub stars](https://img.shields.io/github/stars/qclic/InfisecOS?logo=github)](https://github.com/qclic/InfisecOS/stargazers)
+[![GitHub forks](https://img.shields.io/github/forks/qclic/InfisecOS?logo=github)](https://github.com/qclic/InfisecOS/network)
+[![license](https://img.shields.io/github/license/qclic/InfisecOS)](https://github.com/ZCShou/GoGoGo/blob/master/LICENSE)
 
-```bash
-$ sudo apt update
-$ sudo apt install debianutils sed make binutils build-essential gcc \
-g++ bash patch gzip bzip2 perl tar cpio unzip rsync file bc wget git \
-debootstrap qemu-user-static binfmt-support debian-archive-keyring
-```
+</div> -->
 
-## 配置文件
+English | [中文版](README_CN.md)
 
-|开发板|配置|内核|
+# Introduction
+
+The InfisecOS build system, modified based on the official Buildroot 2022.2 version.
+
+# Build
+
+## Development environment
+
+Buildroot is designed to run on x86 Linux systems, and it has currently been developed and validated only on x86 hosts running Ubuntu 20.04 and Ubuntu 22.04. Other systems may also be supported, but they have not been validated.
+
+## Install dependencies
+
+1. Install the following dependencies on the development host system:
+
+    ```bash
+    $ sudo apt update
+    $ sudo apt install sed make binutils build-essential gcc \
+    g++ bash patch gzip bzip2 perl tar cpio unzip rsync file bc wget git \
+    binfmt-support
+    ```
+
+2. Since some packages are developed in Rust, it is necessary to install the Rust development environment. Please refer to the [official Rust installation instructions](https://www.rust-lang.org/learn/get-started) for details.
+
+## Configuration file
+
+Currently, direct building of images for the Phytium Pi and Raspberry Pi 4B development boards is supported. The corresponding configuration file information is as follows:
+
+|config|Kernel|development board|
 |----|----|----|
-|Phytium Pi|phytiumpi_defconfig| phytium kernel|
-|Phytium Pi|phytiumpi_openeuler_defconfig| openEuler kernel|
-|Raspberry Pi|raspberrypi4_64_defconfig| phytium kernel|
-|Raspberry Pi|raspberrypi4_64_openeuler_defconfig| openEuler kernel|
+|phytiumpi_defconfig| phytium kernel|Phytium Pi|
+|phytiumpi_openeuler_defconfig| openEuler kernel|Phytium Pi|
+|raspberrypi4_64_defconfig| phytium kernel|Raspberry Pi|
+|raspberrypi4_64_openeuler_defconfig| openEuler kernel|Raspberry Pi|
 
-## 构建过程
+## Build process
 
-1. 加载 defconfig `$ make xxx_defconfig`
+1. Use the `make xxx_defconfig` command to load the defconfig and generate the default configuration file `.config`.
 
-2. 编译 `$ make`
+2. Start the compilation by running make.
 
-3. 生成的根文件系统、内核、SD 卡镜像位于 output/images 目录。
+3. he generated root file system, kernel, and SD card image are located in the `output/images` directory.
 
-# 文档
+# Document
 
-TODO
+Refer to [The InfisecOS Document](https://qclic.github.io/) for more information about this project.
+
+# License
+
+The source code and documentation of InfisecOS are primarily licensed under the MIT license, while some components retain their original open-source licenses.
