@@ -45,12 +45,12 @@ Buildroot is designed to run on x86 Linux systems, and it has currently been dev
 
 Currently, direct building of images for the Phytium Pi and Raspberry Pi 4B development boards is supported. The corresponding configuration file information is as follows:
 
-|config|Kernel|development board|
-|----|----|----|
-|phytiumpi_defconfig| phytium kernel|Phytium Pi|
-|phytiumpi_openeuler_defconfig| openEuler kernel|Phytium Pi|
-|raspberrypi4_64_defconfig| phytium kernel|Raspberry Pi|
-|raspberrypi4_64_openeuler_defconfig| openEuler kernel|Raspberry Pi|
+| config | Development Board | Kernel | Version |
+|----|----|----|----|
+| configs/phytiumpi_defconfig | Phytium Pi| [Phytium kernel](https://gitee.com/phytium_embedded/phytium-linux-kernel) | 5.10 |
+| configs/phytiumpi_openeuler_defconfig | Phytium Pi | [openEuler kernel](https://gitee.com/openeuler/phytium-kernel)（openEuler-22.03-LTS） | 5.10 |
+| configs/raspberrypi4_64_defconfig | Raspberry Pi | [raspberrypi kernel](https://github.com/raspberrypi/linux) | 5.10 |
+| configs/raspberrypi4_64_openeuler_defconfig | Raspberry Pi | [openEuler kernel](https://gitee.com/openeuler/raspberrypi-kernel)（openEuler-22.03-LTS-SP2） | 5.10 |
 
 ## Build process
 

@@ -45,12 +45,12 @@ Buildroot 被设计为在 x86 Linux 系统上运行，目前仅在 Ubuntu 20.04�
 
 目前支持直接构建适用于飞腾派、树莓派 4B 开发板的相关镜像，对应的配置文件信息如下所示：
 
-|配置|内核|开发板|
-|----|----|----|
-|phytiumpi_defconfig| phytium kernel|Phytium Pi|
-|phytiumpi_openeuler_defconfig| openEuler kernel|Phytium Pi|
-|raspberrypi4_64_defconfig| phytium kernel|Raspberry Pi|
-|raspberrypi4_64_openeuler_defconfig| openEuler kernel|Raspberry Pi|
+| 配置 | 开发板 | 内核 | 版本 |
+|----|----|----|----|
+| configs/phytiumpi_defconfig | Phytium Pi| [Phytium kernel](https://gitee.com/phytium_embedded/phytium-linux-kernel) | 5.10 |
+| configs/phytiumpi_openeuler_defconfig | Phytium Pi | [openEuler kernel](https://gitee.com/openeuler/phytium-kernel)（openEuler-22.03-LTS） | 5.10 |
+| configs/raspberrypi4_64_defconfig | Raspberry Pi | [raspberrypi kernel](https://github.com/raspberrypi/linux) | 5.10 |
+| configs/raspberrypi4_64_openeuler_defconfig | Raspberry Pi | [openEuler kernel](https://gitee.com/openeuler/raspberrypi-kernel)（openEuler-22.03-LTS-SP2） | 5.10 |
 
 ## 构建过程
 
