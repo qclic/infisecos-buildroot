@@ -47,10 +47,12 @@ Currently, direct building of images for the Phytium Pi and Raspberry Pi 4B deve
 
 | config | Development Board | Kernel | Version |
 |----|----|----|----|
-| configs/phytiumpi_defconfig | Phytium Pi| [Phytium kernel](https://gitee.com/phytium_embedded/phytium-linux-kernel) | 5.10 |
-| configs/phytiumpi_openeuler_defconfig | Phytium Pi | [openEuler kernel](https://gitee.com/openeuler/phytium-kernel)（openEuler-22.03-LTS） | 5.10 |
-| configs/raspberrypi4_64_defconfig | Raspberry Pi | [raspberrypi kernel](https://github.com/raspberrypi/linux) | 5.10 |
-| configs/raspberrypi4_64_openeuler_defconfig | Raspberry Pi | [openEuler kernel](https://gitee.com/openeuler/raspberrypi-kernel)（openEuler-22.03-LTS-SP2） | 5.10 |
+| configs/phytiumpi_defconfig | Phytium Pi| [Phytium kernel](https://gitee.com/phytium_embedded/phytium-linux-kernel) | 5.10.209 |
+| configs/phytiumpi_rt_defconfig | Phytium Pi| [Phytium kernel](https://gitee.com/phytium_embedded/phytium-linux-kernel) with PREEMPT_RT patch integrated | 5.10.209 |
+| configs/phytiumpi_openeuler_defconfig | Phytium Pi | [openEuler kernel](https://gitee.com/openeuler/phytium-kernel) | 5.10.x / openEuler-22.03-LTS |
+| configs/raspberrypi4_64_defconfig | Raspberry Pi | [raspberrypi kernel](https://github.com/raspberrypi/linux) | 5.10.110 |
+| configs/raspberrypi4_64_openeuler_defconfig | Raspberry Pi | [openEuler kernel](https://gitee.com/openeuler/raspberrypi-kernel) | 5.10.0-235.0.0 / openEuler-22.03-LTS-SP4 |
+| configs/raspberrypi4_64_openeuler_rt_defconfig | Raspberry Pi | [openEuler kernel](https://gitee.com/openeuler/raspberrypi-kernel) with PREEMPT_RT patch integrated | 5.10.0-235.0.0 / openEuler-22.03-LTS-SP4 |
 
 ## Build process
 
