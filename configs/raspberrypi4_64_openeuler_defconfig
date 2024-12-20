@@ -22,10 +22,11 @@ BR2_TARGET_GENERIC_ISSUE="Welcome to Raspberry Pi"
 # Kernel
 BR2_LINUX_KERNEL=y
 BR2_LINUX_KERNEL_CUSTOM_GIT=y
-BR2_LINUX_KERNEL_CUSTOM_REPO_URL="https://gitee.com/openeuler/raspberrypi-kernel.git"
-BR2_LINUX_KERNEL_CUSTOM_REPO_VERSION="openEuler-22.03-LTS-SP2"
+BR2_LINUX_KERNEL_CUSTOM_REPO_URL="https://gitee.com/openeuler/kernel.git"
+BR2_LINUX_KERNEL_CUSTOM_REPO_VERSION="5.10.0-235.0.0"
+BR2_LINUX_KERNEL_PATCH="board/raspberrypi4-64/openeuler/0000-raspberrypi-kernel.patch"
 BR2_LINUX_KERNEL_DEFCONFIG="bcm2711"
-BR2_LINUX_KERNEL_CONFIG_FRAGMENT_FILES="board/raspberrypi4-64/openeuler.fragment board/raspberrypi4-64/jailhouse/jailhouse.fragment"
+BR2_LINUX_KERNEL_CONFIG_FRAGMENT_FILES="board/raspberrypi4-64/openeuler/openeuler.fragment board/raspberrypi4-64/jailhouse/jailhouse.fragment"
 BR2_LINUX_KERNEL_INTREE_DTS_NAME="broadcom/bcm2711-rpi-4-b"
 BR2_LINUX_KERNEL_DTS_SUPPORT=y
 BR2_LINUX_KERNEL_NEEDS_HOST_OPENSSL=y
