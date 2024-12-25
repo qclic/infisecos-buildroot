@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-JAILHOUSE_VERSION = dfe03d0f6cd20036930372c8a3e6a72c2e1d3ae8
+JAILHOUSE_VERSION = 5965dd7aad57e29edab1ecbdbcf0b359d6eb1d0a
 JAILHOUSE_SITE = https://gitee.com/itexp/jailhouse.git
 JAILHOUSE_SITE_METHOD = git
 JAILHOUSE_LICENSE = GPL-2.0
