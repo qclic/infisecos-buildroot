@@ -1,0 +1,32 @@
+// Reserves memory for use by the Jailhouse hypervisor
+// buildroot DO Not support build device tree overlay,so we need to compile it manually
+// dtc -I dts -O dtb -o "${BOARD_DIR}/jailhouse/jailhouse-overlay.dtbo" "${BOARD_DIR}/jailhouse/jailhouse-overlay.dts"
+/dts-v1/;
+/plugin/;
+
+/ {
+	compatible = "brcm,bcm2835";
+
+	fragment@0 {
+		target-path = "/";
+		__overlay__ {
+			
+			reserved-memory {
+				#address-cells = <2>;
+				#size-cells = <1>;
+
+				ranges;
+
+				jailhouse_memory: jailhouse@40000000 {
+					reg = <0x0 0x40000000 0x30000000>;
+					no-map;
+				};
+			};
+		};
+	};
+
+	__overrides__ {
+		start = <&jailhouse_memory>,"reg#0";
+		size  = <&jailhouse_memory>,"reg:8";
+	};
+};
