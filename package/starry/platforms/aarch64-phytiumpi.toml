@@ -1,0 +1,46 @@
+# Architecture identifier.
+arch = "aarch64"
+# Platform identifier.
+platform = "aarch64-phytiumpi"
+# Platform family.
+family = "aarch64-phytiumpi"
+
+# Base address of the whole physical memory.
+phys-memory-base = "0xb200_0000"
+# Size of the whole physical memory.
+phys-memory-size = "0x0e00_0000" # 2G
+# Base physical address of the kernel image.
+kernel-base-paddr = "0xb200_0000"
+# Base virtual address of the kernel image.
+kernel-base-vaddr = "0xffff_0000_b200_0000"
+# Linear mapping offset, for quick conversions between physical and virtual
+# addresses.
+ phys-virt-offset = "0xffff_0000_0000_0000"
+# MMIO regions with format (`base_paddr`, `size`).
+mmio-regions = [
+  ["0x2800_D000", "0x1000"],      # UART 1
+  ["0x3080_0000", "0x8000"],      # GICv2
+  ["0x4000_0000", "0x1000_0000"],   # pcie
+  ["0x10_0000_0000", "0x20_0000_0000"], # pcie mmio 64
+]
+virtio-mmio-regions = []
+# UART Address
+uart-paddr = "0x2800_D000"
+uart-irq = "24"
+
+# GIC Address
+gicc-paddr = "0x3080_0000"
+gicd-paddr = "0x3080_1000"
+
+# Base physical address of the PCIe ECAM space.
+pci-ecam-base = "0x4000_0000"
+# End PCI bus number.
+pci-bus-end = "0x100"
+# PCI device memory ranges.
+pci-ranges = [
+  ["0x58000000", "0x27ffffff"],   # pcie mmio 32
+  ["0x10_0000_0000", "0x30_0000_0000"], # pcie mmio 64
+]
+
+# Size of the nocache memory region
+nocache-memory-size = "0x1000_0000"
