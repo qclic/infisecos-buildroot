@@ -1,0 +1,36 @@
+config BR2_PACKAGE_STARRY
+	bool "STARRY"
+	help
+	  STARRY written used rust.
+
+	  https://github.com/qclic/Starry
+
+if BR2_PACKAGE_STARRY
+
+choice
+	prompt "STARRY platform"
+
+config BR2_PACKAGE_STARRY_PLATFORM_PHYTIUMPI
+	bool "Phytium Pi"
+	help
+	  platforms/aarch64-phytium-pi.toml
+
+config BR2_PACKAGE_STARRY_PLATFORM_RASPBERRYPI4B
+	bool "Raspberry Pi 4 Model B"
+	help
+	  platforms/aarch64-raspi4.toml
+
+endchoice
+
+choice
+	prompt "STARRY example"
+
+config BR2_PACKAGE_STARRY_EXAMPLE_HELLOWORLD
+	bool "helloworld"
+	help
+	  apps/monolithic_userboot
+
+
+endchoice
+
+endif
