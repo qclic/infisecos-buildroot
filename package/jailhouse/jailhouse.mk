@@ -5,7 +5,7 @@
 ################################################################################
 
 JAILHOUSE_VERSION = 0ba0b5a68b99261e916fa5128c9e112ba51429e4
-JAILHOUSE_SITE = https://gitee.com/itexp/jailhouse.git
+JAILHOUSE_SITE = https://github.com/qclic/jailhouse.git
 JAILHOUSE_SITE_METHOD = git
 JAILHOUSE_LICENSE = GPL-2.0
 JAILHOUSE_LICENSE_FILES = COPYING
