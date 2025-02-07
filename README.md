@@ -60,7 +60,7 @@ Currently, direct building of images for the Phytium Pi and Raspberry Pi 4B deve
 
 2. Start the compilation by running `make`.
 
-3. After a successful build, the root filesystem, kernel, SD card image, and other related files will be generated in the output/images directory.
+3. After a successful build, the root filesystem, kernel, SD card image, and other related files will be generated in the `output/images` directory.
 
 # Document
 
