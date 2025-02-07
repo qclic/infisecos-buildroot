@@ -60,7 +60,7 @@ Buildroot 被设计为在 x86 Linux 系统上运行，目前仅在 Ubuntu 20.04�
 
 2. 使用 `make` 命令启动编译
 
-3. 生成的根文件系统、内核、SD 卡镜像位于 `output/images` 目录中
+3. 成功构建后将在 `output/images` 目录中生成的根文件系统、内核、SD 卡镜像等文件
 
 # 文档
 
