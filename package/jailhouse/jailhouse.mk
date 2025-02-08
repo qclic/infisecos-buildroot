@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-JAILHOUSE_VERSION = 0ba0b5a68b99261e916fa5128c9e112ba51429e4
+JAILHOUSE_VERSION = 8c5d0de035ea9060196ed6bee33191b830cdcf20
 JAILHOUSE_SITE = https://github.com/qclic/jailhouse.git
 JAILHOUSE_SITE_METHOD = git
 JAILHOUSE_LICENSE = GPL-2.0
