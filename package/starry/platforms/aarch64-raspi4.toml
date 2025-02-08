@@ -24,8 +24,8 @@ kernel-aspace-base = "0xffff_0000_0000_0000"
 kernel-aspace-size = "0x0000_ffff_ffff_f000"
 # MMIO regions with format (`base_paddr`, `size`).
 mmio-regions = [
-    ["0xFE20_1000", "0x1000"],      # PL011 UART
-    ["0xFF84_1000", "0x8000"],      # GICv2
+  ["0xFE20_1000", "0x1000"],      # PL011 UART
+  ["0xFF84_1000", "0x8000"],      # GICv2
 ]
 virtio-mmio-regions = []
 # UART Address
@@ -33,8 +33,21 @@ uart-paddr = "0xFE20_1000"
 uart-irq = "0x79"
 
 # GIC Address
-gicc-paddr = "0xFF84_2000"
-gicd-paddr = "0xFF84_1000"
+gicc-paddr = "0xFF84_1000"
+gicd-paddr = "0xFF84_2000"
+
+# Testcase memory start address.
+testcase-memory-start = "0x4900_0000"
+# Testcase memory size.
+testcase-memory-size = "0x300_0000"
+# The base address of the user heap.
+user-heap-base = "0x3FA0_0000"
+# The base address of the user stack. And the stack bottom is `user-stack-top + max-user-stack-size`.
+user-stack-top = "0x3FE0_0000"
+# The size of the user heap.
+max-user-heap-size = "0x40_0000"
+# The size of the user stack.
+max-user-stack-size = "0x20_0000"
 
 # RTC (PL031) Address (Need to read from DTB).
 rtc-paddr = "0x0"

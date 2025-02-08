@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-STARRY_VERSION = aa6493b862be41b3c281d2b4345023eeba3109a4
+STARRY_VERSION = c6a6c02936306a578c1b6c662dad25d46b7a67c3
 STARRY_SITE = https://github.com/qclic/Starry.git
 STARRY_SITE_METHOD = git
 STARRY_LICENSE = MIT
